@@ -1,0 +1,35 @@
+name = "jarvis-cloud-automation"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[vars]
+ENVIRONMENT = "production"
+APP_NAME = "Jarvis Automation"
+META_GRAPH_VERSION = "v26.0"
+GEMINI_TEXT_MODEL = "gemini-3.8-flash"
+GEMINI_IMAGE_MODEL = "gemini-nano-banana-2.1"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "jarvis-db"
+database_id = "30dfa654-f90a-4673-b1cd-e48ecede084c"
+migrations_dir = "migrations"
+
+[[queues.producers]]
+binding = "PUBLISH_QUEUE"
+queue = "jarvis-publish"
+
+[[queues.consumers]]
+queue = "jarvis-publish"
+max_batch_size = 5
+max_batch_timeout = 5
+max_retries = 5
+
+[triggers]
+crons = ["* * * * *"]
